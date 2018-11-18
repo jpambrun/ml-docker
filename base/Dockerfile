@@ -25,7 +25,6 @@ RUN conda config --append channels conda-forge && conda create -q -y -n py3 pyth
       numpy \
       scipy \
       matplotlib \
-      jupyterlab \
       scikit-learn \
       pandas \
       sympy \

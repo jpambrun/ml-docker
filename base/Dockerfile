@@ -14,6 +14,9 @@ RUN apt-get update --fix-missing && \
 	 wget \
  	 bzip2 \
          ca-certificates \
+	 python3 \
+	 python3-dev \
+	 python3-distutils \
          curl \
 	 wget \
          git \
@@ -26,17 +29,16 @@ RUN apt-get update --fix-missing && \
 
     rm -rf /var/lib/apt/lists/*
 
+RUN wget -O ~/get-pip.py https://bootstrap.pypa.io/get-pip.py && \
+    python3.6 ~/get-pip.py && \
 
+    ln -s /usr/bin/python3.6 /usr/local/bin/python && \
 
-
-RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-4.5.11-Linux-x86_64.sh -O ~/miniconda.sh && \
-    /bin/bash ~/miniconda.sh -b -p /opt/conda && \
-    rm ~/miniconda.sh && \
-    /opt/conda/bin/conda clean -tipsy
-
-ENV PATH /opt/conda/bin/:$PATH
-
-RUN conda config --append channels conda-forge && conda create -q -y -n py3 python=3.6 \
+    pip install \
+         setuptools \
+         && \
+  
+    pip install \
         numpy \
         scipy \
         pandas \
@@ -50,18 +52,15 @@ RUN conda config --append channels conda-forge && conda create -q -y -n py3 pyth
         h5py \
         tensorflow \
         tensorboard \
-        pytorch \
-        torchvision \
         pydicom \
         python-language-server \
         flake8 \
         autopep8 \
         google-cloud-storage \ 
-        google-cloud-firestore
+        google-cloud-firestore \
+        && \
 
-ENV PATH /opt/conda/envs/py3/bin/:$PATH
-
-RUN pip install -i https://pypi.anaconda.org/clinicalgraphics/simple charpyls
+    pip install -i https://pypi.anaconda.org/clinicalgraphics/simple charpyls
 
 
 RUN npm install -g \

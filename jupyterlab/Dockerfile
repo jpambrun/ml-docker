@@ -4,8 +4,8 @@ RUN mkdir /.local && chmod a+rwx /.local
 WORKDIR /notebooks
 EXPOSE 8888
 
-#RUN conda install -n py3 jupyterlab 
-RUN pip install jupyterlab google-cloud-storage google-cloud-firestore itkwidgets jupyterlab-git
+RUN pip install jupyterlab google-cloud-storage google-cloud-firestore 
+#itkwidgets jupyterlab-git
 RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager itk-jupyter-widgets
 RUN jupyter labextension install @jupyterlab/git
 

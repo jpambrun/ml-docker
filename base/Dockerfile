@@ -9,11 +9,25 @@ ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 ENV SHELL /bin/bash
 
 RUN apt-get update --fix-missing && \
-    apt-get install -y wget bzip2 ca-certificates curl git nodejs npm build-essential && \
+
+    apt-get install -y \
+	 wget \
+ 	 bzip2 \
+         ca-certificates \
+         curl \
+	 wget \
+         git \
+	 vim \
+         nodejs \
+         npm \
+         build-essential && \
+
     apt-get clean && \
+
     rm -rf /var/lib/apt/lists/*
 
-RUN npm install -g yarn && npm cache clean
+
+
 
 RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-4.5.11-Linux-x86_64.sh -O ~/miniconda.sh && \
     /bin/bash ~/miniconda.sh -b -p /opt/conda && \
@@ -21,27 +35,46 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-4.5.11-Linux-x86
     /opt/conda/bin/conda clean -tipsy
 
 ENV PATH /opt/conda/bin/:$PATH
+
 RUN conda config --append channels conda-forge && conda create -q -y -n py3 python=3.6 \
-      numpy \
-      scipy \
-      matplotlib \
-      scikit-learn \
-      pandas \
-      sympy \
-      pillow \
-      pyyaml \
-      h5py \
-      tensorflow \
-      tensorboard \
-      pytorch \
-      torchvision \
-      gdcm \
-      pydicom \
-      python-language-server \
-      flake8 \
-      autopep8
+        numpy \
+        scipy \
+        pandas \
+        cloudpickle \
+        scikit-learn \
+        matplotlib \
+        Cython \
+        sympy \
+        pillow \
+        pyyaml \
+        h5py \
+        tensorflow \
+        tensorboard \
+        pytorch \
+        torchvision \
+        pydicom \
+        python-language-server \
+        flake8 \
+        autopep8 \
+        google-cloud-storage \ 
+        google-cloud-firestore
 
 ENV PATH /opt/conda/envs/py3/bin/:$PATH
+
+RUN pip install -i https://pypi.anaconda.org/clinicalgraphics/simple charpyls
+
+
+RUN npm install -g \
+         dcmjs \
+	 dicom-parser \
+	 @google-cloud/firestore \
+         @google-cloud/storage \
+	 yarn && \
+
+    npm cache clean
+
+ENV NODE_PATH /usr/local/lib/node_modules/
+
 
 ENTRYPOINT [ "/tini", "--" ]
 CMD [ "/bin/bash" ]

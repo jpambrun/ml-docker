@@ -9,7 +9,6 @@ ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 ENV SHELL /bin/bash
 
 RUN apt-get update --fix-missing && \
-
     apt-get install -y \
 	 wget \
  	 bzip2 \
@@ -23,21 +22,16 @@ RUN apt-get update --fix-missing && \
 	 vim \
          nodejs \
          npm \
-         build-essential && \
-
-    apt-get clean && \
-
+         build-essential && \ 
+    apt-get clean && \ 
     rm -rf /var/lib/apt/lists/*
 
 RUN wget -O ~/get-pip.py https://bootstrap.pypa.io/get-pip.py && \
     python3.6 ~/get-pip.py && \
-
     ln -s /usr/bin/python3.6 /usr/local/bin/python && \
-
     pip install \
          setuptools \
          && \
-  
     pip install \
         numpy \
         scipy \
@@ -59,9 +53,7 @@ RUN wget -O ~/get-pip.py https://bootstrap.pypa.io/get-pip.py && \
         google-cloud-storage \ 
         google-cloud-firestore \
         && \
-
     pip install -i https://pypi.anaconda.org/clinicalgraphics/simple charpyls
-
 
 RUN npm install -g \
          dcmjs \
@@ -72,7 +64,6 @@ RUN npm install -g \
          diff-so-fancy \
          caporal \
 	 yarn && \
-
     npm cache clean
 
 RUN git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install

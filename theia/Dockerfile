@@ -1,5 +1,6 @@
 FROM jpambrun/ml-base as builder
 WORKDIR /home/theia
+ENV NODE_OPTIONS --max-old-space-size=4096 
 ADD package.json ./package.json
 RUN yarn --cache-folder ./ycache && rm -rf ./ycache
 RUN yarn theia build

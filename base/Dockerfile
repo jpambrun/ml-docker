@@ -68,12 +68,17 @@ RUN npm install -g \
 	 dicom-parser \
 	 @google-cloud/firestore \
          @google-cloud/storage \
+         mongodb \
+         diff-so-fancy \
+         caporal \
 	 yarn && \
 
     npm cache clean
 
-ENV NODE_PATH /usr/local/lib/node_modules/
+RUN git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install
 
+ENV NODE_PATH /usr/local/lib/node_modules/
+RUN  echo "    IdentityFile ~/.ssh/id_rsa" >> /etc/ssh/ssh_config
 
 ENTRYPOINT [ "/tini", "--" ]
 CMD [ "/bin/bash" ]

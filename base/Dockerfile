@@ -20,9 +20,14 @@ RUN apt-get update --fix-missing && \
 	 wget \
          git \
 	 vim \
-         nodejs \
-         npm \
-         build-essential && \ 
+         build-essential \ 
+	 parallel \
+         && \ 
+    apt-get clean && \ 
+    rm -rf /var/lib/apt/lists/*
+
+RUN curl -sL https://deb.nodesource.com/setup_10.x |  bash - && \
+    apt-get install -y nodejs && \
     apt-get clean && \ 
     rm -rf /var/lib/apt/lists/*
 
@@ -33,42 +38,17 @@ RUN wget -O ~/get-pip.py https://bootstrap.pypa.io/get-pip.py && \
          setuptools \
          && \
     pip install \
-        numpy \
-        scipy \
-        pandas \
-        cloudpickle \
-        scikit-learn \
-        matplotlib \
-        Cython \
-        sympy \
-        pillow \
-        pyyaml \
-        h5py \
-        tensorflow \
-        tensorboard \
-        pydicom \
         python-language-server \
         flake8 \
         autopep8 \
-        google-cloud-storage \ 
-        google-cloud-firestore \
-        && \
-    pip install -i https://pypi.anaconda.org/clinicalgraphics/simple charpyls
+        pylint 
 
-RUN npm install -g \
-         dcmjs \
-	 dicom-parser \
-	 @google-cloud/firestore \
-         @google-cloud/storage \
-         mongodb \
-         diff-so-fancy \
-         caporal \
-	 yarn && \
-    npm cache clean
+RUN npm install -g yarn diff-so-fancy
 
 RUN git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install
 
-ENV NODE_PATH /usr/local/lib/node_modules/
+ENV NODE_PATH /usr/lib/node_modules/
+
 RUN  echo "    IdentityFile ~/.ssh/id_rsa" >> /etc/ssh/ssh_config
 
 ENTRYPOINT [ "/tini", "--" ]

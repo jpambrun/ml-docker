@@ -20,7 +20,8 @@ RUN apt-get update --fix-missing && \
 	 wget \
          git \
 	 vim \
-         build-essential \ 
+         build-essential \
+         silversearcher-ag \
 	 parallel \
          && \ 
     apt-get clean && \ 
